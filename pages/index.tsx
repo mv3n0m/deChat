@@ -15,7 +15,7 @@ export default () => {
     }, [ _authenticated ])
 
     return (
-        <div>
+        <div className="h-screen">
             <Head>
                 <title>DeChat</title>
                 <link rel="icon" href="/favicon.ico" />

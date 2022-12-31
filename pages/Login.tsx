@@ -16,15 +16,13 @@ function Login() {
     const [ web3Disabled, setWeb3Disabled ] = useState(false)
 
     useEffect(() => {
-        if (!(window as any).ethereum.providerMap?.get("MetaMask")) {
+        if (!(window as any).ethereum?.providerMap?.get("MetaMask")) {
             setWeb3Disabled(true)
         }
     }, [])
 
-
     const handleAuth = async () => {
         if (web3Disabled) return
-
 
         if (isConnected) {
             await disconnectAsync();
@@ -59,6 +57,20 @@ function Login() {
                         Login using Metamask
                     </button>
                 </div>
+            </div>
+
+            <div className="absolute text-xs bottom-0 right-0 z-50 h-1/6 p-5 flex flex-col items-center sm:text-sm">
+                <p className="text-white font-semibold animate-pulse mb-2">{ web3Disabled ? "No Metamask?" : "Try Web2!!!" }</p>
+                <Image alt="arrow"
+                    width={ 30 } height={ 30 }
+                    src="/arrow.png"
+                    className="animate-bounce"
+                />
+                <Image alt="arrow"
+                    width={ 40 } height={ 40 }
+                    src="/google.png"
+                    className="animate-spin cursor-pointer hover:animate-none hover:scale-110"
+                />
             </div>
 
             <div className="w-full h-screen">
