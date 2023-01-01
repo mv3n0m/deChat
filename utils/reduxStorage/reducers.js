@@ -7,7 +7,7 @@ const usersReducer = ( state, action ) => {
     switch (action.type) {
         case 'USER_AUTHENTICATED':
             account ? storeLocal("isAuthenticated", account) : deleteLocal("isAuthenticated")
-            return { ...state, isAuthenticated: retrieveLocal("isAuthenticated") }
+            return { ...state, account: retrieveLocal("isAuthenticated") }
 
         default:
             return state || null

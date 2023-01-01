@@ -17,7 +17,6 @@ function Header() {
         await disconnectAsync()
     }
 
-
     return (
         <div className={ `relative text-fuchsia-400 font-semibold max-w-screen-2xl mx-auto bg-black border-b-2 border-white rounded-b-md shadow-md px-20 flex justify-between items-baseline ${ hidden ? "h-10 py-2" : "py-5" }` }>
             <div className="flex gap-5">

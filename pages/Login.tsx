@@ -4,6 +4,7 @@ import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { signIn } from 'next-auth/react';
 
 
 function Login() {
@@ -16,12 +17,12 @@ function Login() {
     const [ web3Disabled, setWeb3Disabled ] = useState(false)
 
     useEffect(() => {
-        if (!(window as any).ethereum?.providerMap?.get("MetaMask")) {
-            setWeb3Disabled(true)
-        }
+        setWeb3Disabled(!(window as any).ethereum?.providerMap?.get("MetaMask"))
     }, [])
 
     const handleAuth = async () => {
+        if (web3Disabled) return signIn('google')
+
         if (isConnected) {
             await disconnectAsync();
         }
@@ -37,7 +38,7 @@ function Login() {
         const { message } = challengeResponse!;
         const signature = await signMessageAsync({ message });
 
-        if (signature) dispatch({ type: 'USER_AUTHENTICATED', isAuthenticated: true, account })
+        if (signature) dispatch({ type: 'USER_AUTHENTICATED', account })
     };
 
     return (
@@ -68,6 +69,7 @@ function Login() {
                     width={ 40 } height={ 40 }
                     src="/google.png"
                     className="animate-spin cursor-pointer hover:animate-none hover:scale-110"
+                    // onClick={ handleAuth }
                 />
             </div>
 

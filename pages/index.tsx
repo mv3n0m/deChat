@@ -1,18 +1,21 @@
 import Head from "next/head";
 import Login from "./Login";
 import Home from "./Home";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { retrieveLocal } from "@/utils";
 
 
 export default () => {
-    const _authenticated = useSelector((state: any) => state.usersReducer?.isAuthenticated)
+    const address = useSelector((state: any) => state.usersReducer?.account)
     const [ authenticated, isAuthenticated ] = useState(true)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        isAuthenticated(retrieveLocal("isAuthenticated") || _authenticated)
-    }, [ _authenticated ])
+        const account = retrieveLocal("isAuthenticated")
+        dispatch({ type: 'USER_AUTHENTICATED', account })
+        isAuthenticated(account || address)
+    }, [ address ])
 
     return (
         <div className="h-screen">
