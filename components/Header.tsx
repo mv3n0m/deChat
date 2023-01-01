@@ -1,37 +1,63 @@
-import { useSelector } from "react-redux"
-import Avatar from "./Avatar"
 import { useDispatch } from "react-redux";
 import { useDisconnect } from "wagmi";
 import Image from "next/image";
-import { useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import AvatarStyle from "./AvatarStyle";
+import ChatRoom from "./ChatRoom";
 
 
-function Header() {
-    const address = useSelector((state: any) => state.usersReducer?.account)
+function Header({ children, chatroom }: { children: ReactNode, chatroom: string }) {
+    const inputRef = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
     const { disconnectAsync } = useDisconnect()
-    const [ hidden, hideSelf ] = useState(false)
+    const [hidden, hideSelf] = useState(false)
+    const [editUserName, setEditUsername] = useState(false)
+    const [username, setUserName] = useState("abc")
 
     const logout = async () => {
         dispatch({ type: 'USER_AUTHENTICATED' })
         await disconnectAsync()
     }
 
+    useEffect(() => {
+        editUserName && inputRef?.current?.focus()
+    }, [editUserName])
+
     return (
-        <div className={ `relative text-fuchsia-400 font-semibold max-w-screen-2xl mx-auto bg-black border-b-2 border-white rounded-b-md shadow-md px-20 flex justify-between items-baseline ${ hidden ? "h-10 py-2" : "py-5" }` }>
-            <div className="flex gap-5">
-                { hidden || <Avatar text={address} size={80} className="border-4 border-white" /> }
-                <div className="flex flex-col justify-between">
-                    { hidden || <p>Edit username</p> }
-                    <div>Vibe</div>
+        <div className={`relative text-white font-semibold max-w-screen-2xl mx-auto bg-black border-b-2 border-white rounded-b-md shadow-md ${hidden ? "h-10 py-2" : "py-5"}`}>
+            <div className="px-5 flex md:px-20">
+                {hidden || children}
+                <div className="ml-5 grow">
+                    {
+                        hidden || (
+                            <div className="pb-5">
+                                {
+                                    editUserName ? (
+                                        <input placeholder={`Edit: ${username}`} onMouseLeave={() => setEditUsername(false)}
+                                            onChange={e => setUserName(e.target.value.trim())} ref={inputRef}
+                                            className="shadow shadow-fuchsia-300 bg-black text-fuchsia-500 focus:outline-none rounded-full px-3 placeholder:italic placeholder:font-normal"
+                                        />
+                                    ) : (
+                                        <span onMouseEnter={() => setEditUsername(true)} className="cursor-pointer">{username}</span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
+                    <div className="flex justify-between w-full">
+                        <AvatarStyle />
+                        <div className="flex gap-5">
+                            <ChatRoom />
+                            <button onClick={logout}>Logout</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div><button onClick={logout}>Logout</button></div>
-            <div className="absolute -bottom-8 right-1/2 animate-bounce transform p-3 cursor-pointer" onClick={()  => hideSelf(!hidden)}>
+            <div className="absolute -bottom-8 left-1/2 py-3 cursor-pointer animate-bounce" onClick={() => hideSelf(!hidden)}>
                 <Image alt="arrow"
                     src="/arrow.png"
                     height={30} width={30}
-                    className={ `${ hidden || "scale-y-[-1]" }` }
+                    className={`${hidden || "scale-y-[-1]"}`}
                 />
             </div>
         </div>
