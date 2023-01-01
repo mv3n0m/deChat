@@ -22,8 +22,6 @@ function Login() {
     }, [])
 
     const handleAuth = async () => {
-        if (web3Disabled) return
-
         if (isConnected) {
             await disconnectAsync();
         }
@@ -39,7 +37,7 @@ function Login() {
         const { message } = challengeResponse!;
         const signature = await signMessageAsync({ message });
 
-        if (signature) dispatch({ type: 'USER_AUTHENTICATED', isAuthenticated: true })
+        if (signature) dispatch({ type: 'USER_AUTHENTICATED', isAuthenticated: true, account })
     };
 
     return (
