@@ -1,13 +1,13 @@
-import { retrieveLocal, storeLocal, deleteLocal } from "../localStorage"
+import { retrieveLocal, storeLocal, deleteLocal } from "../sessionStorage"
 
 
 const usersReducer = ( state, action ) => {
-    const { isAuthenticated, account } =  action
+    const { account } =  action
 
     switch (action.type) {
         case 'USER_AUTHENTICATED':
-            isAuthenticated ? storeLocal("isAuthenticated", isAuthenticated) : deleteLocal("isAuthenticated")
-            return { ...state, isAuthenticated: retrieveLocal("isAuthenticated"), account }
+            account ? storeLocal("isAuthenticated", account) : deleteLocal("isAuthenticated")
+            return { ...state, isAuthenticated: retrieveLocal("isAuthenticated") }
 
         default:
             return state || null

@@ -1,13 +1,13 @@
 const storeLocal = (objKey, obj) => {
-    localStorage.setItem(objKey, JSON.stringify(obj))
+    sessionStorage.setItem(objKey, JSON.stringify(obj))
 }
 
 const retrieveLocal = (objKey) => (
-    JSON.parse(localStorage.getItem(objKey))
+    JSON.parse(sessionStorage.getItem(objKey))
 )
 
 const deleteLocal = (objKey) => {
-    localStorage.removeItem(objKey)
+    sessionStorage.removeItem(objKey)
 }
 
 export { storeLocal, retrieveLocal, deleteLocal }
