@@ -1,19 +1,22 @@
 import Image from "next/image"
 
+
 type avatarProps = {
   text: string,
-  size: number,
+  size?: number,
   className?: string,
+  avatarStyle: string,
   onClick?: () => void
 }
 
+function Avatar({ text, size, className, avatarStyle, onClick }: avatarProps) {
+  const props = size ? { width: size, height: size } : { fill: true }
 
-function Avatar({ text, size, className, onClick }: avatarProps) {
   return (
     <Image alt="arrow"
-      width={size} height={size}
-      src={`https://api.dicebear.com/6.x/adventurer-neutral/png?seed=${text}`}
-      className={ `rounded-full inline-block ${ className }` }
+      { ...props }
+      src={`https://api.dicebear.com/6.x/${avatarStyle}/png?seed=${text}`}
+      className={`rounded-full inline-block p-1 ${className}`}
       onClick={onClick}
     />
   )
