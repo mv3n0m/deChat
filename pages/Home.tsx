@@ -1,19 +1,11 @@
-import { useDispatch } from "react-redux";
-import { useDisconnect } from "wagmi";
+import { Header } from "@/components";
 
 
 function User() {
-    const dispatch = useDispatch()
-    const { disconnectAsync } = useDisconnect()
-
-    const logout = async () => {
-        dispatch({ type: 'USER_AUTHENTICATED' })
-        await disconnectAsync()
-    }
 
     return (
-        <div>
-            <button onClick={ logout }>Logout</button>
+        <div className="h-screen overflow-y-scroll bg-gradient-to-b from-black to-fuchsia-500 ">
+            <Header />
         </div>
     );
 }
