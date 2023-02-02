@@ -2,13 +2,13 @@ import Image from "next/image"
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
-import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { signIn } from 'next-auth/react';
+import { useRouter } from "next/router";
 
 
 function Login() {
-    const dispatch = useDispatch()
+    const { push } = useRouter();
     const { connectAsync } = useConnect();
     const { disconnectAsync } = useDisconnect();
     const { signMessageAsync } = useSignMessage();
@@ -20,7 +20,7 @@ function Login() {
         setWeb3Disabled(!(window as any).ethereum?.providerMap?.get("MetaMask"))
     }, [])
 
-    const handleAuth = async () => {
+    const handleMetamaskAuth = async () => {
         if (isConnected) {
             await disconnectAsync();
         }
@@ -36,7 +36,19 @@ function Login() {
         const { message } = challengeResponse!;
         const signature = await signMessageAsync({ message });
 
-        if (signature) dispatch({ type: 'USER_AUTHENTICATED', account })
+        return { message, signature }
+    }
+
+    const handleAuth = async (authKey: string) => {
+        let options = { redirect: false, callbackUrl: "/Home" }
+        if (authKey === "moralis-auth") {
+            options = { ...options, ...(await handleMetamaskAuth()) }
+        }
+
+        const signInResponse = await signIn(authKey, options)!;
+        if (signInResponse?.url) {
+            push(signInResponse.url);
+        }
     };
 
     return (
@@ -48,7 +60,7 @@ function Login() {
                         width={250} height={250}
                         className="rounded-full"
                     />
-                    <button onClick={ handleAuth } disabled={ web3Disabled }
+                    <button onClick={() => handleAuth("moralis-auth")} disabled={ web3Disabled }
                         className={ `font-semibold shadow-lg px-12 py-3 rounded-xl ${ web3Disabled ? "text-zinc-800 bg-zinc-400" : "text-indigo-950 bg-white animate-pulse" }` }
                     >
                         Login using Metamask
@@ -67,7 +79,7 @@ function Login() {
                     width={ 40 } height={ 40 }
                     src="/google.png"
                     className="animate-spin cursor-pointer hover:animate-none hover:scale-110"
-                    onClick={() => signIn('google')}
+                    onClick={() => handleAuth("google")}
                 />
             </div>
 
