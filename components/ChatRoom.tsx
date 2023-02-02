@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 
+
 function ChatRoom() {
     const dispatch = useDispatch()
 
@@ -15,9 +16,10 @@ function ChatRoom() {
     }
 
     return (
-        <select onChange={handleChange}
-            className="bg-black shadow shadow-fuchsia-300 rounded-full px-1 cursor-pointer focus:outline-none w-min pr-5"
+        <select onChange={handleChange} defaultValue="0"
+            className="bg-black shadow shadow-fuchsia-300 rounded-full px-1 cursor-pointer focus:outline-none w-min pr-3"
         >
+            <option value="0" disabled>Chatroom</option>
             {
                 Object.entries(options).map(([k, v], idx) => (
                     <option value={k} key={idx}>{v}</option>
