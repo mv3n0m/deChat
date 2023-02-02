@@ -1,4 +1,4 @@
-import storeRedux from './reduxStorage'
-import { storeLocal, retrieveLocal } from './sessionStorage'
+import storeRedux from './reduxStore'
+import { storeLocal, retrieveLocal } from './localStore'
 
 export { storeRedux, storeLocal, retrieveLocal }
