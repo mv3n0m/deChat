@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { useDisconnect } from "wagmi";
 import Image from "next/image";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import AvatarStyle from "./AvatarStyle";
@@ -7,16 +6,14 @@ import ChatRoom from "./ChatRoom";
 
 
 function Header({ children, chatroom }: { children: ReactNode, chatroom: string }) {
-    const inputRef = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
-    const { disconnectAsync } = useDisconnect()
+    const inputRef = useRef<HTMLInputElement>(null)
     const [hidden, hideSelf] = useState(false)
     const [editUserName, setEditUsername] = useState(false)
     const [username, setUserName] = useState("abc")
 
     const logout = async () => {
         dispatch({ type: 'USER_AUTHENTICATED' })
-        await disconnectAsync()
     }
 
     useEffect(() => {
