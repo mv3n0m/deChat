@@ -8,12 +8,12 @@ import { signIn } from 'next-auth/react';
 
 
 function Login() {
+    const dispatch = useDispatch()
     const { connectAsync } = useConnect();
     const { disconnectAsync } = useDisconnect();
-    const { isConnected } = useAccount();
     const { signMessageAsync } = useSignMessage();
     const { requestChallengeAsync } = useAuthRequestChallengeEvm();
-    const dispatch = useDispatch()
+    const { isConnected } = useAccount();
     const [ web3Disabled, setWeb3Disabled ] = useState(false)
 
     useEffect(() => {
@@ -21,8 +21,6 @@ function Login() {
     }, [])
 
     const handleAuth = async () => {
-        if (web3Disabled) return signIn('google')
-
         if (isConnected) {
             await disconnectAsync();
         }
@@ -69,7 +67,7 @@ function Login() {
                     width={ 40 } height={ 40 }
                     src="/google.png"
                     className="animate-spin cursor-pointer hover:animate-none hover:scale-110"
-                    // onClick={ handleAuth }
+                    onClick={() => signIn('google')}
                 />
             </div>
 
