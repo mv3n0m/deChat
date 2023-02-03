@@ -10,10 +10,16 @@ function Header({ children, chatroom }: { children: ReactNode, chatroom: string 
     const inputRef = useRef<HTMLInputElement>(null)
     const [hidden, hideSelf] = useState(false)
     const [editUserName, setEditUsername] = useState(false)
-    const [username, setUserName] = useState("abc")
+    const [username, setUserName] = useState(localStorage.getItem("uName") || Math.random().toString(36).substring(2, 9))
 
     const logout = async () => {
         dispatch({ type: 'USER_AUTHENTICATED' })
+    }
+
+    const updateUsername = (event: any) => {
+        const uName = event.target.value.trim()
+        localStorage.setItem("uName", uName)
+        setUserName(uName)
     }
 
     useEffect(() => {
@@ -31,7 +37,7 @@ function Header({ children, chatroom }: { children: ReactNode, chatroom: string 
                                 {
                                     editUserName ? (
                                         <input placeholder={`Edit: ${username}`} onMouseLeave={() => setEditUsername(false)}
-                                            onChange={e => setUserName(e.target.value.trim())} ref={inputRef}
+                                            onChange={ updateUsername } ref={inputRef}
                                             className="shadow shadow-fuchsia-300 bg-black text-fuchsia-500 focus:outline-none rounded-full px-3 placeholder:italic placeholder:font-normal"
                                         />
                                     ) : (
