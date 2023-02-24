@@ -1,17 +1,11 @@
 import Head from "next/head";
 import Home from "./Home";
+import Login from "./Login";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 
 export default () => {
     const { data: session } = useSession()
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (session?.user) dispatch({ type: 'USER_AUTHENTICATED', account: (session?.user as any).id })
-    }, [ session ])
 
     return (
         <div className="h-screen">
@@ -19,7 +13,7 @@ export default () => {
                 <title>DeChat</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Home />
+            { session?.user ? <Home /> : <Login /> }
         </div>
     )
 }
