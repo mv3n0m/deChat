@@ -3,8 +3,7 @@ import Home from "./Home";
 import Login from "./Login";
 import { useSession } from "next-auth/react";
 
-
-export default () => {
+const App = () => {
     const { data: session } = useSession()
 
     return (
@@ -17,3 +16,6 @@ export default () => {
         </div>
     )
 }
+
+
+export default App
