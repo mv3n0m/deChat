@@ -71,7 +71,7 @@ function Header({ chatroom, username }: { chatroom: string, username: string }) 
                     </div>
                 </div>
             </div>
-            <div className="absolute -bottom-8 left-1/2 py-3 cursor-pointer animate-bounce" onClick={() => hideSelf(!hidden)}>
+            <div className={ `absolute ${ username === "anon" ? "top-10 left-28 md:left-44" : " -bottom-8 left-1/2" } py-3 cursor-pointer animate-bounce` } onClick={() => username !== "anon" && hideSelf(!hidden)}>
                 <Image alt="arrow"
                     src="/arrow.png"
                     height={30} width={30}
