@@ -42,7 +42,14 @@ function Login() {
     const handleAuth = async (authKey: string) => {
         let options = { redirect: false, callbackUrl: "/Home" }
         if (authKey === "moralis-auth") {
-            options = { ...options, ...(await handleMetamaskAuth()) }
+            let metamaskAuth;
+            try {
+                metamaskAuth = await handleMetamaskAuth()
+            } catch(err: any) {
+                const { code } = err
+                return alert(code === 4001 ? err.message.split("\n")[0] : "Something went wrong.")
+            }
+            options = { ...options, ...metamaskAuth }
         }
 
         const signInResponse = await signIn(authKey, options)!;
