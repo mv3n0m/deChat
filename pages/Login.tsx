@@ -17,7 +17,7 @@ function Login() {
     const [ web3Disabled, setWeb3Disabled ] = useState(false)
 
     useEffect(() => {
-        setWeb3Disabled(!(window as any).ethereum?.providerMap?.get("MetaMask"))
+        setWeb3Disabled(!(window as any).ethereum.isMetaMask)
     }, [])
 
     const handleMetamaskAuth = async () => {
