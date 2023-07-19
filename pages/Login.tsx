@@ -56,7 +56,7 @@ function Login() {
             <div className="flex h-4/5 justify-center items-center z-50 absolute w-full">
                 <div className="flex flex-col items-center space-y-8">
                     <Image alt="hero-img"
-                        src="https://stock-images-mv3n0m.s3.amazonaws.com/DeChat-color.jpg"
+                        src="/logo.jpg"
                         width={250} height={250}
                         className="rounded-full"
                     />
@@ -85,7 +85,7 @@ function Login() {
 
             <div className="w-full h-screen">
                 <Image alt="main-bg"
-                    src="https://stock-images-mv3n0m.s3.amazonaws.com/WYAjt3T.jpeg"
+                    src="/bgImage.jpeg"
                     fill
                     className="object-cover"
                 />
